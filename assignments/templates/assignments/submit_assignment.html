@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Assignment</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9966, #ff5e62);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container{
+            background-color: #ffffff;
+            width: 420px;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
+        h2{
+            text-align: center;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .assignment-title{
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 16px;
+            color: #555;
+        }
+        form p{
+            margin-bottom: 15px;
+        }
+        label{
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea, select{
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+        input:focus, textarea:focus, select:focus{
+            outline: none;
+            border-color: #ff5e62;
+            box-shadow: 0 0 5px rgba(255,94,98,0.5);
+        }
+        button{
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background-color: #ff5e62;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover{
+            background-color: #e0484c;
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+     <h2>Submit Assignment</h2>
+     <p class="assignment-title">
+        <strong>{{ assignment.title }}</strong>
+     </p>
+     <form method="post"  enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+     </form>
+   </div>
+</body>
+</html>

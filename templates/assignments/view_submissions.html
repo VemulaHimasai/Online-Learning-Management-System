@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments Submission</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h2{
+            text-align: center;
+            color: #333;
+        }
+        .container{
+            width: 60%;
+            margin: auto;
+            background:white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .submission{
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .submission:last-child{
+            border-bottom: none;
+        }
+        .student{
+            font-weight: bold;
+            color:#444;
+        }
+        .time{
+            color: #777;
+            font-size: 14px;
+        }
+        a{
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        a:hover{
+            background-color: #0056b3;
+        }
+        .no-sub{
+            text-align : center;
+            color: #888;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+    <h2>Submissions for {{ assignment.title }}</h2>
+
+    <hr>
+
+    {% if submissions %}
+    {% for submission in submissions %}
+    <div class="submission">
+        <div class="student">Student: {{ submission.student.username }}</div>
+
+        <div class="time">
+            Submitted at: {{ submission.submitted_at }}
+        </div>
+        <a href = "{{ submission.file.url }}">Download File</a>
+
+    </div>
+    {% endfor %}
+    {% else %}
+        <p>No submissions found.</p>
+    {% endif %}
+   </div> 
+</body>
+</html>

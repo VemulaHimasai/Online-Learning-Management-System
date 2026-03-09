@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .result-container{
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 350px;
+        }
+        h2{
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .score{
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #185a9d;
+        }
+        .dashboard-link{
+            display: inline-block;
+            text-decoration: none;
+            background-color: #185a9d;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        .dashboard-link:hover{
+            background-color: #12477a;
+        }
+    </style>
+</head>
+<body>
+   <div class="result-container">
+    <h2>Quiz Result</h2>
+
+    <p class="score">
+        Your Score: {{ score }} / {{ total }}
+    </p>
+    <a href="/accounts/dashboard/" class="dashboard-link">
+        Back to DashBoard
+    </a>
+   </div>
+</body>
+</html>

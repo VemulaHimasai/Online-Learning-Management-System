@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student DashBoard</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1{
+            color: #2c3e50;
+        }
+        h2{
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+        h3{
+            background-color: #2c3e50;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        ul{
+            list-style: none;
+            padding-left: 0;
+        }
+        li{
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        a{
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: bold;
+        }
+        a:hover{
+            color: #1abc9c;
+        }
+        button{
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+          background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, {{ request.user.username }}</h1>
+    <h2>Student DashBoard</h2>
+    
+    <hr>
+
+    <h3>Enrolled Courses</h3>
+
+    {% if courses %}
+    <ul>
+        {% for course in courses %}
+        <li>
+            <strong>{{ course.title }}</strong><br>
+            {{ course.description}}
+            <br><br>
+            <h4>Lessons</h4>
+            {% if course.lesson_set.all %}
+            <ul>
+                {% for lesson in course.lesson_set.all %}
+                <li>
+                    {{ lesson.title }}
+                    {% if lesson.video %}
+                      - <a href="{{ lesson.video.url }}">Watch Video</a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No Lessons Available</p>
+            {% endif %}
+        </li>
+
+        <hr>
+        {% endfor %}
+
+    </ul>
+    {% else %}
+    <p>No courses enrolled yet</p>
+    {% endif %}
+
+    <hr>
+
+    <h3>All Courses</h3>
+
+{% if courses %}
+<ul>
+    {% for course in courses %}
+    <li>
+        <strong>{{ course.title }}</strong><br>
+        {{ course.description }}
+        <br><br>
+
+        {% if course.is_enrolled %}
+            <button type="button" disabled>Enrolled</button>
+        {% else %}
+            <form action="{% url 'enroll_course' course.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Enroll</button>
+            </form>
+        {% endif %}
+    </li>
+    <hr>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No courses available</p>
+{% endif %}
+
+    <hr>
+
+    <h3>Available Quizzes</h3>
+
+    {% if quizzes %}
+
+    <ul>
+        {% for quiz in quizzes %}
+        <li>
+            <strong>{{ quiz.title }}</strong>
+
+            <a href="{% url 'attempt_quiz' quiz.id %}">
+                Attempt Quiz
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+
+    <p>No quizzes available</p>
+
+    {% endif %}
+
+    <hr>
+
+    <h3>Your Quiz Results</h3>
+
+    {% if attempts %}
+
+    <ul>
+        {% for attempt in attempts %}
+        <li>
+            Quiz: <strong>{{ attempt.quiz.title }}</strong>
+
+            <br>
+
+            Score: {{ attempt.score }} / {{ attempt.total }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>You have not attempted any quiz yet.</p>
+    {% endif %}
+
+    <hr>
+
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+    <hr>
+
+    <h3>Assignments</h3>
+
+    {% if assignments %}
+
+    <ul>
+        {% for assignment in assignments %}
+        <li>
+            <strong>{{ assignment.title }}</strong>
+
+            <br>
+
+            Course: {{ assignment.course.title }}
+
+            <br>
+
+            Deadline: {{ assignment.deadline }}
+
+            <br><br>
+
+            <a href="{% url 'submit_assignment' assignment.id %}">
+               <button type="button">Submit Assignment</button>
+            </a>
+        </li>
+
+        <hr>
+
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No assignments available</p>
+    {% endif %}
+</body>
+</html>
