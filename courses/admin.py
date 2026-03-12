@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course
+from .models import Course, Enrollment
 
 # Register your models here.
 
@@ -9,3 +9,5 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ('title', 'teacher')
     search_fields = ('title',)
     list_filter = ('teacher',)
+
+admin.site.register(Enrollment)

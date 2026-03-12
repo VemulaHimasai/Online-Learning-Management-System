@@ -6,6 +6,11 @@ from .forms import CourseForm
 # Create your views here.
 
 @login_required
+def course_list(request):
+    courses = Course.objects.all()
+    return render(request, 'courses/course_list.html', {'courses': courses})
+
+@login_required
 def create_course(request):
     if request.user.role != 'teacher':
         return redirect('dashboard')

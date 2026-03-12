@@ -109,7 +109,13 @@ def teacher_dashboard(request):
 
     courses = Course.objects.filter(teacher=request.user)
     assignments = Assignment.objects.filter(course__in=courses)
-    return render(request, 'accounts/teacher_dashboard.html', {'courses': courses, 'assignments': assignments})
+    attempts = QuizAttempt.objects.filter(quiz__course__in=courses)
+
+    return render(request, 'accounts/teacher_dashboard.html', {
+        'courses': courses,
+        'assignments': assignments,
+        'attempts': attempts
+    })
 
 @login_required
 def create_assignment(request, course_id):

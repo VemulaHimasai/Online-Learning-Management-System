@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Dashboard</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            width: 80%;
+            margin: auto;
+            padding: 30px;
+        }
+        h1{
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .quiz-card{
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .quiz-title{
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .course{
+            color: gray;
+            margin-top: 5px;
+        }
+        .btn{
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover{
+            background: #0056b3;
+        }
+        .no-quiz{
+            text-align: center;
+            color: gray;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Dashboard</h1>
+        {% if quizzes %}
+        {% for quiz in quizzes %}
+        <div class="quiz-card">
+            <div class="quiz-title">
+                {{ quiz.title }}
+            </div>
+            {% if quiz.course %}
+            <div class="course">
+                Course: {{ quiz.course.title }}
+            </div>
+            {% endif %}
+            <a href="{% url 'attempt_quiz' quiz.id %}" class="btn">
+                Attempt Quiz
+            </a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="no-quiz">No quizzes available yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

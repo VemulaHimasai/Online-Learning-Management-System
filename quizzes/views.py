@@ -5,34 +5,37 @@ from courses.models import Course
 from .forms import QuizForm
 
 @login_required
+def quiz_list(request):
+    quizzes = Quiz.objects.all()
+    return render(request, 'quizzes/quiz_list.html', {'quizzes': quizzes})
+
+@login_required
+def quiz_dashboard(request):
+    quizzes = Quiz.objects.all()
+    return render(request, 'quizzes/quiz_dashboard.html', {'quizzes': quizzes})
+
+
+@login_required
 def attempt_quiz(request, id):
     quiz = get_object_or_404(Quiz, id=id)
     questions = Question.objects.filter(quiz=quiz)
 
-    if request.method == "POST":
+    if request.method == 'POST':
         score = 0
 
         for question in questions:
             selected = request.POST.get(str(question.id))
-            if selected == question.correct_answer:
-                score += 1
 
-        QuizAttempt.objects.create(
-            quiz=quiz,
-            student=request.user,
-            score=score
-        )
+            if selected:
+                selected_number = int(selected.replace('option', ''))
 
-        return render(request, "quizzes/quiz_result.html", {
-            "score": score,
-            "total": questions.count()
-        })
+                if selected_number == question.correct_answer:
+                    score += 1
+        QuizAttempt.objects.create(user=request.user, quiz=quiz, score=score, total=questions.count())
+        return render(request, 'quizzes/quiz_result.html', {'score': score, 'total': questions.count()})
+    return render(request, 'quizzes/attempt_quiz.html', {'quiz': quiz, 'questions': questions})
 
-    return render(request, "quizzes/attempt_quiz.html", {
-        "quiz": quiz,
-        "questions": questions
-    })
-
+@login_required
 def create_quiz(request, course_id):
     course = Course.objects.get(id=course_id)
 
